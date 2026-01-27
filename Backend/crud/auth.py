@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from Backend.dependencies.password import verify_password
 
 
-
+#Login user and return tokens
 def authenticate_user(db: Session, email: str, password: str):
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.hashed_password):

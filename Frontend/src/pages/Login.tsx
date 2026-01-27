@@ -11,10 +11,10 @@ const Login = () => {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+  const handleSubmit = async (e: React.FormEvent) => {    //“e is a form submit event coming from React”  React.FormEvent is a type definiion
+    e.preventDefault()  //Prevents page refresh when form is submitted.
+    setError('')        //Clear old error message.
+    setLoading(true)    //Shows loading state (button disabled + "Logging in...")
 
     try {
       await login(email, password)
@@ -22,7 +22,7 @@ const Login = () => {
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Invalid email or password')
     } finally {
-      setLoading(false)
+      setLoading(false)   //Stop loading spinner whether success or failure
     }
   }
 
@@ -54,9 +54,9 @@ const Login = () => {
             />
           </div>
           {error && <div className="error-message">{error}</div>}
-          <button type="submit" disabled={loading} className="submit-button">
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
+          <button type="submit" disabled={loading} className="submit-button">          //Button disabled when loading = true
+            {loading ? 'Logging in...' : 'Login'}                              //React ternary operator //If loading → show "Logging in..." Else → show "Login"
+          </button> 
         </form>
         <div className="auth-links">
           <Link to="/forgot-password">Forgot Password?</Link>

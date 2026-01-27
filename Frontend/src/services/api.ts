@@ -1,9 +1,11 @@
-import axios from 'axios'
+import axios from 'axios'   //- Imports the Axios library for making HTTP requests
+
+// access_token and refresh_token
 
 // Use Vite proxy to avoid CORS issues
 // The proxy is configured in vite.config.ts to forward /api/* to http://localhost:8000/*
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
-
+//create - preconfigured Axios instance named api
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -11,9 +13,10 @@ const api = axios.create({
   },
 })
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token   "- Runs before every request."
+
 api.interceptors.request.use(
-  (config) => {
+  (config) => {  //success handler function - It receives the request config object (which contains URL, headers, method, etc.).
     const token = localStorage.getItem('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -25,10 +28,10 @@ api.interceptors.request.use(
   }
 )
 
-// Response interceptor to handle token refresh
+// Response interceptor to handle token refresh   "- Runs after every response."
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  (response) => response,          //suuccess handler - simply returns the response as is.
+  async (error) => {                //error handler - handles errors, particularly 401 Unauthorized errors.
     const originalRequest = error.config
 
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -37,7 +40,7 @@ api.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refresh_token')
         if (refreshToken) {
-          const response = await api.post('/auth/refresh', {
+          const response = await api.post('/auth/refresh', {             // post request to the backend endpoint /auth/refresh 
             refresh_token: refreshToken,
           })
 
@@ -51,7 +54,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
-        window.location.href = '/login'
+        window.location.href = '/login'          //back to the login page so they can re‑authenticate.
         return Promise.reject(refreshError)
       }
     }

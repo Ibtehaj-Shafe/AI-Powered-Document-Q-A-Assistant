@@ -13,3 +13,8 @@ class UserStats(Base):
 
     # Relationship back to User
     user = relationship("User", back_populates="stats")
+
+
+    """
+    ondelete is a foreign key constraint that ensures if the user is deleted, the associated stats record is also removed.
+    """

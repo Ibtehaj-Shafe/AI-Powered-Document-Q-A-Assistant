@@ -61,7 +61,7 @@ def verify_otp(db: Session, email: str, otp: str):
     if not otp_entry:
         raise ValueError("Invalid or expired OTP")
 
-    # Check expiry
+    # Check expiry by column name
     if otp_entry.expires_at < datetime.now(timezone.utc):
         raise ValueError("OTP has expired")
 

@@ -43,12 +43,16 @@ def process_query(query: str, user_id: int, db: Session) -> str:
     results = index.query(
         vector=query_embedding,
         top_k=5,
-        include_metadata=True,
-        filter={"user_id": user_id}
+        include_metadata=True,              # Include metadata in the results like chunk text, filename etc
+        filter={"user_id": user_id}         # Ensures only this user’s documents are searched.
     )
 
-    # 3. Build context
-    context = "\n".join([match["metadata"]["chunk"] for match in results["matches"]])
+    # 3. Build context from retrieved chunks
+    context = ""
+    for match in results["matches"]:            #  results["matches"] list of the top‑k chunks that matched the query
+        chunk_text = match["metadata"]["chunk"]
+        context += chunk_text + "\n"
+
 
     # 4. Ask Groq LLM
     prompt = (
@@ -59,10 +63,20 @@ def process_query(query: str, user_id: int, db: Session) -> str:
     f"clearly state: 'I am unable to find data related to the query.'"
    ) 
 
-    chat_response = groq_client.chat.completions.create(
+    chat_response = groq_client.chat.completions.create(                #  chat.completions.create -> return multiple possible completions.
         model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}]
     )
+
+    """
+    .message contains dict like
+    {
+    "role": "assistant",
+    "content": "AI stands for Artificial Intelligence..."
+    }
+
+    """
+
     answer = chat_response.choices[0].message.content
 
     # 5. Increment question count in DB Class name: UserStats

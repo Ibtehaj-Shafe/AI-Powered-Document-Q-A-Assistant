@@ -5,6 +5,9 @@ from Backend.models import UserStats
 
 def get_system_stats(db: Session):
     total_users = db.query(User).count()
+
+    # - .with_entities(...) → selects only specific columns instead of the whole object
+    
     totals = db.query(
         UserStats
     ).with_entities(

@@ -13,9 +13,9 @@ const Signup = () => {
   const { signup } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
+  const handleSubmit = async (e: React.FormEvent) => {     //“e is a form submit event coming from React”
+    e.preventDefault()   //Prevents page refresh when form is submitted.
+    setError('')    //Clear old error message.  
 
     if (password !== confirmPassword) {
       setError('Passwords do not match')

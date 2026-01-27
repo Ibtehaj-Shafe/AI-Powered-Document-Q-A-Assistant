@@ -4,6 +4,9 @@ import { authService } from '../services/authService'
 import type { UserResponse } from '../services/authService'
 import { decodeJWT, isTokenExpired } from '../utils/jwt'
 
+
+//- Defines the shape of the context
+
 interface AuthContextType {
   user: UserResponse | null
   loading: boolean
@@ -13,6 +16,8 @@ interface AuthContextType {
   isAuthenticated: boolean
   isAdmin: boolean
 }
+
+//- Creates the context.    - Provides a custom hook useAuth() to consume it.- Ensures you can only use useAuth inside an AuthProvider.
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
@@ -31,6 +36,8 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserResponse | null>(null)
   const [loading, setLoading] = useState(true)
+
+ //- Runs once when the app loads.- Checks if an access_token exists in localStorage.- If valid → decodes it and sets the user.- If expired or invalid → clears tokens.
 
   useEffect(() => {
     const initAuth = () => {

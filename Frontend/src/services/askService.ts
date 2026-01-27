@@ -1,5 +1,7 @@
 import api from './api'
 
+//ask service baxckend endpoint /ask/
+
 export interface AskRequest {
   query: string
 }

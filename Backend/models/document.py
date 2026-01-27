@@ -10,7 +10,8 @@ class Document(Base):
     id = Column(Integer, primary_key=True, index=True)
     filename = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    upload_date = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    upload_date = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))#- timestamp is evaluated at insertion time,
+    
 
     # Relationship back to User
     user = relationship("User", back_populates="documents")

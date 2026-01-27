@@ -15,31 +15,43 @@ def admin_dashboard(
     total_users = db.query(User).count()
 
     all_stats = db.query(UserStats).all()
+    total_files = 0
+    total_questions = 0
+    
+    for s in all_stats:
+        if s.files_uploaded_count:
+            total_files += s.files_uploaded_count
+        if s.questions_asked_count:
+            total_questions += s.questions_asked_count
 
-    total_files = sum(s.files_uploaded_count or 0 for s in all_stats)
-    total_questions = sum(s.questions_asked_count or 0 for s in all_stats)
-
-    # Fetch stats for all users (outer join ensures users without stats are included)
-    results = (
-    db.query(User.id, User.name, User.email,
-             UserStats.files_uploaded_count,
-             UserStats.questions_asked_count)
-    .outerjoin(UserStats, User.id == UserStats.user_id)
-    .order_by(User.id.asc())   # 👈 enforce ascending order
-    .all()
-)
+    # Step 1: Select the fields you want
+    query = db.query(
+        User.id,
+        User.name,
+        User.email,
+        UserStats.files_uploaded_count,
+        UserStats.questions_asked_count
+    )
+    #-left outer join for each user, SQLAlchemy will try to find matching stats where user_id equals that user’s ID.
+    # Step 2: Join UserStats to User
+    query = query.outerjoin(UserStats, User.id == UserStats.user_id)
+    # Step 3: Order by User ID
+    query = query.order_by(User.id.asc())
+    # Step 4: Execute and get results
+    results = query.all()
 
     # Format response
-    user_stats = [
-        {
+
+    user_stats = []
+    for r in results:
+        user_stats.append({
             "user_id": r.id,
             "name": r.name,
             "email": r.email,
             "files_uploaded_count": r.files_uploaded_count or 0,
             "questions_asked_count": r.questions_asked_count or 0
-        }
-        for r in results
-    ]
+            })
+
 
     return {
         "message": f"Welcome To Admin Dashboard.",

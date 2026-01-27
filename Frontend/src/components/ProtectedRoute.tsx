@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -14,11 +14,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin 
     return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Loading...</div>
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated) {    // if user isn’t logged in
     return <Navigate to="/login" replace />
   }
 
-  if (requireAdmin && !isAdmin) {
+  if (requireAdmin && !isAdmin) {        //If route requires admin but user isn’t admin
     return <Navigate to="/dashboard" replace />
   }
 

@@ -24,15 +24,23 @@ embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
-    reader = PdfReader(io.BytesIO(file_bytes))
-    return "".join(page.extract_text() or "" for page in reader.pages)
+    reader = PdfReader(io.BytesIO(file_bytes))   # open the PDF from bytes      io.BytesIO(file_bytes)wraps the raw bytes in a file-like object stored memory.
+    text = ""                                    # start with empty string
+    for page in reader.pages:                    # go through each page
+        page_text = page.extract_text()          # try to get text
+        if page_text:                            # if text exists
+            text += page_text                    # add it to our string
+    return text                                  # return all text
 
 
 def extract_text_from_docx(file_bytes: bytes) -> str:
     doc = docx.Document(io.BytesIO(file_bytes))
-    return "\n".join([para.text for para in doc.paragraphs])
+    text = ""
+    for para in doc.paragraphs:
+        text += para.text + "\n"
+    return text
 
-
+#Iterative Fixed‑length character chunking with overlap
 def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50):
     chunks = []
     start = 0
@@ -76,7 +84,7 @@ def process_upload(file_content: str, filename: str, user_id: int, db: Session) 
     for chunk in chunks:
         embedding = embedder.encode(chunk).tolist()
         vectors.append((
-            str(uuid.uuid4()),
+            str(uuid.uuid4()),          #generates a unique ID for the vector
             embedding,
             {
                 "user_id": user_id,

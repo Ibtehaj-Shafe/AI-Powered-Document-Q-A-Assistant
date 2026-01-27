@@ -15,14 +15,10 @@ class User(Base):
     stats = relationship("UserStats", back_populates="user", uselist=False) #one-to-one (A user has one stats record)
 
     
-# - UserStats because each user should have only one stats record (one‑to‑one relationship).
 # - uselist tells This relationship should be treated as a scalar (single object), not a list
 
-# stats = relationship("UserStats", back_populates="user", uselist=False)
-# documents = relationship("Document", back_populates="user")
-
 """
-- Purpose: It tells Pydantic that when you create a response model from an ORM object (like a SQLAlchemy model), it should read the object’s attributes instead of expecting a plain dictionary.
-- Without it, if you try to return a SQLAlchemy object directly from your FastAPI route, Pydantic would complain because it expects a dict.
-- With it, Pydantic knows: “Okay, this is an ORM object, I will grab its attributes (user.id, user.email, etc.) and build the response.”
+- By default, SQLAlchemy assumes a one-to-many relationship when you declare relationship("SomeModel").
+- That means it expects the attribute (stats in your case) to be a list-like collection of related objects.
+
 """

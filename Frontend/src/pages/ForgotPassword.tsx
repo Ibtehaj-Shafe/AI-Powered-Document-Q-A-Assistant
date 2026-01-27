@@ -4,12 +4,13 @@ import { authService } from '../services/authService'
 import './Auth.css'
 
 const ForgotPassword = () => {
+  //state variables for email, error message, and loading state
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {   //“e is a form submit event coming from React”
     e.preventDefault()
     setError('')
     setLoading(true)
@@ -17,13 +18,13 @@ const ForgotPassword = () => {
     try {
       const response = await authService.forgotPassword(email)
       // OTP sent successfully, navigate to reset password page with email
-      navigate(`/reset-password?email=${encodeURIComponent(email)}`)
+      navigate(`/reset-password?email=${encodeURIComponent(email)}`)    //Go to reset password page and send email in URL.  //querry parameter
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Failed to send OTP')
     } finally {
       setLoading(false)
     }
-  }
+  }//$ is part of JavaScript template literals and is used to embed variables or expressions inside a string
 
   return (
     <div className="auth-container">

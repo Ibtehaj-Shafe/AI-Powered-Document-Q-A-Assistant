@@ -11,5 +11,5 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.get("/all", response_model=List[UserResponse])
-def get_all_users(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def get_all_users(db: Session = Depends(get_db)):
     return user_crud.get_all_users(db)

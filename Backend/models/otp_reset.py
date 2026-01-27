@@ -7,7 +7,5 @@ class OTPReset(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, nullable=False)
     otp_hash = Column(Text, nullable=False)
-    # expires_at = Column(TIMESTAMP, nullable=False)
-    # expires_at = Column(DateTime(timezone=True))
-    expires_at = Column(DateTime(timezone=True), nullable=False)
+    expires_at = Column(DateTime(timezone=True), nullable=False)  #column will store timezone‑aware datetime values
     used = Column(Boolean, default=False)

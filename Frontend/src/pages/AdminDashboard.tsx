@@ -6,13 +6,13 @@ import type { AdminDashboardResponse } from '../services/adminService'
 import './AdminDashboard.css'
 
 const AdminDashboard = () => {
-  const { logout } = useAuth()
+  const { logout } = useAuth()      //- Extracts the logout function from the authentication context.
   const navigate = useNavigate()
-  const [data, setData] = useState<AdminDashboardResponse | null>(null)
+  const [data, setData] = useState<AdminDashboardResponse | null>(null) //- State to hold the dashboard data fetched from the backend.
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
+  useEffect(() => {  //- Fetches dashboard data when the component mounts. Ran once.
     fetchDashboardData()
   }, [])
 
@@ -95,9 +95,9 @@ const AdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.user_stats.length === 0 ? (
+                    {data.user_stats.length === 0 ? (        //conditional rendering - if no user stats available, show message : otherwaise rensder user stats.
                       <tr>
-                        <td colSpan={5} className="no-data">
+                        <td colSpan={5} className="no-data">         //merges 5 columns into one cell
                           No user statistics available
                         </td>
                       </tr>

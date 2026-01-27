@@ -1,5 +1,6 @@
+from email.utils import formataddr
 import smtplib
-from email.message import EmailMessage
+from email.message import EmailMessage # A helper class for constructing email messages (subject, sender, recipient, body).
 import os
 
 SMTP_EMAIL = os.getenv("SMTP_EMAIL")
@@ -15,7 +16,8 @@ def send_otp_email(to_email: str, otp: str) -> None:
 
     msg = EmailMessage()
     msg["Subject"] = "Password Reset OTP"
-    msg["From"] = SMTP_EMAIL
+    # msg["From"] = SMTP_EMAIL
+    msg["From"] = formataddr(("Support Team", SMTP_EMAIL))
     msg["To"] = to_email
 
     msg.set_content(
@@ -35,10 +37,10 @@ Support Team
     )
 
     try:
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
-            server.starttls()               # Secure connection
-            server.login(SMTP_EMAIL, SMTP_PASSWORD)
-            server.send_message(msg)
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:         #opens a connection to the SMTP server.
+            server.starttls()               # Secure connection, Upgrades the connection to a secure TLS channel.       
+            server.login(SMTP_EMAIL, SMTP_PASSWORD)         
+            server.send_message(msg)    #sends the constructed email message.
     except Exception as e:
         # Do NOT expose SMTP error details to user
         raise RuntimeError("Failed to send OTP email")
