@@ -30,7 +30,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete='off'>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -40,6 +40,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
+              autoComplete='username'
             />
           </div>
           <div className="form-group">
@@ -51,11 +52,14 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Enter your password"
+              autoComplete="current-password"
             />
           </div>
+
+          
           {error && <div className="error-message">{error}</div>}
-          <button type="submit" disabled={loading} className="submit-button">          //Button disabled when loading = true
-            {loading ? 'Logging in...' : 'Login'}                              //React ternary operator //If loading → show "Logging in..." Else → show "Login"
+          <button type="submit" disabled={loading} className="submit-button">          {/*Disable button when loading is true */}
+            {loading ? 'Logging in...' : 'Login'}                              {/*React ternary operator //If loading → show "Logging in..." Else → show "Login"*/}
           </button> 
         </form>
         <div className="auth-links">

@@ -86,12 +86,12 @@ const Dashboard = () => {
       <header className="dashboard-header">
         <h1>Document Q&A System</h1>
         <div className="header-actions">
-          {isAdmin && (                  //conditional rendering - If isAdmin is true, then render what’s inside.
+          {isAdmin && (                  //conditional rendering - If isAdmin is true, then render what’s inside.*
             <button onClick={() => navigate('/admin')} className="admin-button">
               Admin Dashboard
             </button>
           )}
-          <span className="user-name">{user?.name || user?.email}</span>  //Displays the user’s name if available or email.
+          <span className="user-name">{user?.name || user?.email}</span>  {/*Displays the user’s name if available or email.*/}
           <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
@@ -111,11 +111,11 @@ const Dashboard = () => {
                 className="file-input"
               />
               <label htmlFor="file-input" className="file-label">
-                {file ? file.name : 'Choose PDF or DOCX file'}     //tenary conditional operator - If file is selected, show its name; otherwise, prompt to choose a file.
+                {file ? file.name : 'Choose PDF or DOCX file'}     {/*tenary conditional operator - If file is selected, show its name; otherwise, prompt to choose a file.*/}
               </label>
             </div>
             <button type="submit" disabled={uploading || !file} className="upload-button">
-              {uploading ? 'Uploading...' : 'Upload'}   //Tenary conditional operator - If uploading is true, show 'Uploading...'; otherwise, show 'Upload'.
+              {uploading ? 'Uploading...' : 'Upload'}   {/*Tenary conditional operator - If uploading is true, show 'Uploading...'; otherwise, show 'Upload'.*/}
             </button>
           </form>
           {uploadMessage && <div className="success-message">{uploadMessage}</div>}
@@ -131,8 +131,8 @@ const Dashboard = () => {
               rows={4}       //height of the textarea in number of text lines
               className="query-input"
             />
-            <button type="submit" disabled={asking || !query.trim()} className="ask-button"> //disabled if asking is true or query is empty after trimming whitespace.
-              {asking ? 'Asking...' : 'Ask Question'} // Tenary conditional operator - If asking is true, show 'Asking...'; otherwise, show 'Ask Question'.
+            <button type="submit" disabled={asking || !query.trim()} className="ask-button"> {/*disabled if asking is true or query is empty after trimming whitespace.*/}
+              {asking ? 'Asking...' : 'Ask Question'}  {/*Tenary conditional operator - If asking is true, show 'Asking...'; otherwise, show 'Ask Question'.*/}
             </button>
           </form>
           {answer && (

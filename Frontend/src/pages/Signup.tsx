@@ -43,7 +43,7 @@ const Signup = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete='off'>
           <div className="form-group">
             <label htmlFor="name">Name</label>
             <input
@@ -53,6 +53,7 @@ const Signup = () => {
               onChange={(e) => setName(e.target.value)}
               required
               placeholder="Enter your name"
+              autoComplete='off'
             />
           </div>
           <div className="form-group">
@@ -64,6 +65,7 @@ const Signup = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
+              autoComplete='off'
             />
           </div>
           <div className="form-group">
@@ -76,6 +78,7 @@ const Signup = () => {
               required
               placeholder="Enter your password"
               minLength={6}
+              autoComplete='new-password'
             />
           </div>
           <div className="form-group">
@@ -88,6 +91,7 @@ const Signup = () => {
               required
               placeholder="Confirm your password"
               minLength={6}
+              autoComplete='new-password'
             />
           </div>
           {error && <div className="error-message">{error}</div>}

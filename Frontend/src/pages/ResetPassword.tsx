@@ -52,7 +52,7 @@ const ResetPassword = () => {
         <p style={{ marginBottom: '20px', color: '#666' }}>
           Enter the OTP sent to your email and your new password to reset your password.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete='off'>
           {email && (       // conditional rendering - If email has a value (not empty), then render what’s inside.
             <div className="form-group">
               <label htmlFor="email">Email</label>
@@ -62,6 +62,7 @@ const ResetPassword = () => {
                 value={email}
                 readOnly
                 className="readonly-input"
+                autoComplete='off'
                 style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
               />
             </div>
@@ -76,6 +77,7 @@ const ResetPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="Enter your email"
+                autoComplete='off'
               />
             </div>
           )}
@@ -88,6 +90,7 @@ const ResetPassword = () => {
               onChange={(e) => setOtp(e.target.value)}
               required
               placeholder="Enter the OTP sent to your email"
+              autoComplete='off'
             />
           </div>
           <div className="form-group">
@@ -100,6 +103,7 @@ const ResetPassword = () => {
               required
               placeholder="Enter new password"
               minLength={6}
+              autoComplete='new-password'
             />
           </div>
           <div className="form-group">
@@ -112,6 +116,7 @@ const ResetPassword = () => {
               required       // must be filled
               placeholder="Confirm new password"
               minLength={6}
+              autoComplete='new-password'
             />
           </div>
           {error && <div className="error-message">{error}</div>}    

@@ -33,7 +33,7 @@ const ForgotPassword = () => {
         <p style={{ marginBottom: '20px', color: '#666' }}>
           Enter your email address and we'll send you an OTP to reset your password.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete='off'>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -43,6 +43,7 @@ const ForgotPassword = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
+              autoComplete='off'
             />
           </div>
           {error && <div className="error-message">{error}</div>}

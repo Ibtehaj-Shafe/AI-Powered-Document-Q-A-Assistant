@@ -55,7 +55,7 @@ const AdminDashboard = () => {
         <h1>Admin Dashboard</h1>
         <div className="header-actions">
           <button onClick={() => navigate('/dashboard')} className="back-button">
-            Back to Dashboard
+            Back to User Dashboard
           </button>
           <button onClick={handleLogout} className="logout-button">
             Logout
